@@ -5,6 +5,12 @@ from mathMethods.mathFunctions import MathFunctions
 
 
 class StateValues:
+    uncertainty_functions = {
+        "B-ACD": {},
+        "D-AC": {},
+        "A-C": {},
+    }
+
     def __init__(self):
         self.classes_learn_dataset: dict[str, dict[int, list[int]]] = {
             "A": {
@@ -74,9 +80,10 @@ class StateValues:
                 13: [23, 22, 12, 92, 18, 46, 36, 23, 24, 8],
                 14: [21, 28, 9, 96, 15, 48, 30, 21, 22, 7],
                 15: [29, 26, 11, 100, 11, 50, 22, 29, 28, 7],
-            }
+            },
         }
         self.Mathematics = MathFunctions(self.classes_learn_dataset)
+
 
     def get_corr_matrix(self):
         matrix = self.Mathematics.correlation_matrix()
@@ -91,28 +98,33 @@ class StateValues:
              *self.classes_learn_dataset["C"].values(),
              *self.classes_learn_dataset["D"].values()]
         )
-        # print(F"{b_acd}")
+        print(F"{b_acd}")
 
         d_ac = self.Mathematics.informative_signs(
             [*self.classes_learn_dataset["D"].values()],
             [*self.classes_learn_dataset["A"].values(),
              *self.classes_learn_dataset["C"].values()]
         )
-        # print(F"{d_ac}")
+        print(F"{d_ac}")
+
         a_c = self.Mathematics.informative_signs(
             [*self.classes_learn_dataset["A"].values()],
             [*self.classes_learn_dataset["C"].values()]
         )
-        # print(F"{a_c}")
+        print(F"{a_c}")
 
     def plots(self):
-        # B - ACD
+        # B - ACD 3 - 6
 
-        # self.create_informative_plot(2, 5,
-        #                                       [*self.classes_learn_dataset["B"].values()],
-        #                                       [*self.classes_learn_dataset["A"].values(),
-        #                                        *self.classes_learn_dataset["C"].values(),
-        #                                        *self.classes_learn_dataset["D"].values()])
+        self.create_informative_plot(2, 5,
+                                              [*self.classes_learn_dataset["B"].values()],
+                                              [*self.classes_learn_dataset["A"].values(),
+                                               *self.classes_learn_dataset["C"].values(),
+                                               *self.classes_learn_dataset["D"].values()],
+                                     "График отображения объектов классов B и не B(ACD)",
+                                     "Признак 3", "Признак 6",
+                                     "Класс B", "Класс не B"
+                                     )
 
         self.create_informative_plot_with_func(
             2, 5,
@@ -121,64 +133,73 @@ class StateValues:
              *self.classes_learn_dataset["C"].values(),
              *self.classes_learn_dataset["D"].values()],
             "График отображения объектов классов B и не B(ACD) с ЛДФ",
-            "Признак 2", "Признак 5",
+            "Признак 3", "Признак 6",
             "Класс B", "Класс не B"
         )
 
-        # self.create_informative_plot_with_func_jackknife(2, 5,
-        #                                                  [*self.classes_learn_dataset["B"].values()],
-        #                                                  [*self.classes_learn_dataset["A"].values(),
-        #                                                   *self.classes_learn_dataset["C"].values(),
-        #                                                   *self.classes_learn_dataset["D"].values()],
-        #                                                  "График отображения объектов классов B и не B(ACD) с ЛДФ",
-        #                                                  "Признак 2", "Признак 5",
-        #                                                  "Класс B", "Класс не B")
+        self.create_informative_plot_with_func_jackknife(2, 5,
+                                                         [*self.classes_learn_dataset["B"].values()],
+                                                         [*self.classes_learn_dataset["A"].values(),
+                                                          *self.classes_learn_dataset["C"].values(),
+                                                          *self.classes_learn_dataset["D"].values()],
+                                                         "График отображения объектов классов B и не B(ACD) с ЛДФ и Jackknife",
+                                                         "Признак 3", "Признак 6",
+                                                         "Класс B", "Класс не B")
 
-        # D - AC
-        #
-        # self.create_informative_plot(2, 5,
-        #                              [*self.classes_learn_dataset["D"].values()],
-        #                              [*self.classes_learn_dataset["A"].values(),
-        #                               *self.classes_learn_dataset["C"].values()])
-        #
-        # self.create_informative_plot_with_func(
-        #     5, 2,
-        #     [*self.classes_learn_dataset["D"].values()],
-        #     [*self.classes_learn_dataset["A"].values(),
-        #      *self.classes_learn_dataset["C"].values()],
-        #     "График отображения объектов классов D и не D(AC) с ЛДФ",
-        #     "Признак 2", "Признак 5",
-        #     "Класс D", "Класс не D"
-        # )
-        # self.create_informative_plot_with_func_jackknife(2, 5,
-        #                                                  [*self.classes_learn_dataset["D"].values()],
-        #                                                  [*self.classes_learn_dataset["A"].values(),
-        #                                                  *self.classes_learn_dataset["C"].values()],
-        #                                                  "График отображения объектов классов D и не D(AC) с ЛДФ",
-        #                                                  "Признак 2", "Признак 5",
-        #                                                  "Класс D", "Класс не D")
+        # D - AC 6 - 3
 
-        # A - C
+        self.create_informative_plot(5, 2,
+                                     [*self.classes_learn_dataset["D"].values()],
+                                     [*self.classes_learn_dataset["A"].values(),
+                                      *self.classes_learn_dataset["C"].values()],
+                                     "График отображения объектов классов D и не D(AC)",
+                                     "Признак 6", "Признак 3",
+                                     "Класс D", "Класс не D"
+                                     )
 
-        # self.create_informative_plot(3, 2,
-        #                              [*self.classes_learn_dataset["A"].values()],
-        #                              [*self.classes_learn_dataset["C"].values()])
-        #
-        # self.create_informative_plot_with_func(
-        #     2, 3,
-        #     [*self.classes_learn_dataset["A"].values()],
-        #     [*self.classes_learn_dataset["C"].values()],
-        #     "График отображения объектов классов A и не A(C) с ЛДФ",
-        #     "Признак 2", "Признак 3",
-        #     "Класс A", "Класс C"
-        # )
-        #
-        # self.create_informative_plot_with_func_jackknife(2, 3,
-        #                                                  [*self.classes_learn_dataset["A"].values()],
-        #                                                      [*self.classes_learn_dataset["C"].values()],
-        #                                                  "График отображения объектов классов A и не A(C) с ЛДФ",
-        #                                                  "Признак 2", "Признак 3",
-        #                                                  "Класс A", "Класс C")
+        self.create_informative_plot_with_func(
+            5, 2,
+            [*self.classes_learn_dataset["D"].values()],
+            [*self.classes_learn_dataset["A"].values(),
+             *self.classes_learn_dataset["C"].values()],
+            "График отображения объектов классов D и не D(AC) с ЛДФ",
+            "Признак 6", "Признак 3",
+            "Класс D", "Класс не D"
+        )
+
+        self.create_informative_plot_with_func_jackknife(5, 2,
+                                                         [*self.classes_learn_dataset["D"].values()],
+                                                         [*self.classes_learn_dataset["A"].values(),
+                                                         *self.classes_learn_dataset["C"].values()],
+                                                         "График отображения объектов классов D и не D(AC) с ЛДФ и Jackknife",
+                                                         "Признак 6", "Признак 3",
+                                                         "Класс D", "Класс не D")
+
+        # A - C 4 - 3
+
+        self.create_informative_plot(2, 3,
+                                     [*self.classes_learn_dataset["A"].values()],
+                                     [*self.classes_learn_dataset["C"].values()],
+                                     "График отображения объектов классов A и не A(C)",
+                                     "Признак 3", "Признак 4",
+                                     "Класс A", "Класс C"
+                                     )
+
+        self.create_informative_plot_with_func(
+            2, 3,
+            [*self.classes_learn_dataset["A"].values()],
+            [*self.classes_learn_dataset["C"].values()],
+            "График отображения объектов классов A и не A(C) с ЛДФ",
+            "Признак 3", "Признак 4",
+            "Класс A", "Класс C"
+        )
+
+        self.create_informative_plot_with_func_jackknife(2, 3,
+                                                         [*self.classes_learn_dataset["A"].values()],
+                                                             [*self.classes_learn_dataset["C"].values()],
+                                                         "График отображения объектов классов A и не A(C) с ЛДФ и Jackknife",
+                                                         "Признак 3", "Признак 4",
+                                                         "Класс A", "Класс C")
 
     @staticmethod
     def solve_function_coefficients(vector_a: tuple,
@@ -223,16 +244,20 @@ class StateValues:
                                 x: int,
                                 y: int,
                                 y_class: list,
-                                not_class: list):
+                                not_class: list,
+                                title: str,
+                                xlabel: str, ylabel: str,
+                                alabel: str, blabel: str,
+                                ):
         """????"""
         class_A_x, class_A_y, class_B_x, class_B_y = self.devide_classes(x, y, y_class, not_class)
 
-        plt.scatter(class_A_x, class_A_y, color='blue', label='Класс A')
-        plt.scatter(class_B_x, class_B_y, color='red', label='Класс C')
+        plt.scatter(class_A_x, class_A_y, color='blue', label=alabel)
+        plt.scatter(class_B_x, class_B_y, color='red', label=blabel)
 
-        plt.title("График точек классов A и не A(C) по признакам")
-        plt.ylabel("Признак 3")
-        plt.xlabel("Признак 2")
+        plt.title(title)
+        plt.ylabel(ylabel)
+        plt.xlabel(xlabel)
         plt.legend()
         plt.show()
 
@@ -245,10 +270,10 @@ class StateValues:
                                           ):
         """????"""
         class_A_x, class_A_y, class_B_x, class_B_y = self.devide_classes(x, y, y_class, not_class)
-        # if len(not_class) == 45:
-        #     vector_a, vector_b = self.average_values(class_A_x, class_A_y, class_B_x, class_B_y)
-        # else:
-        vector_a, vector_b = self.average_values(class_A_y, class_A_x, class_B_y, class_B_x)
+        if len(not_class) == 45:
+            vector_a, vector_b = self.average_values(class_A_x, class_A_y, class_B_x, class_B_y)
+        else:
+            vector_a, vector_b = self.average_values(class_A_y, class_A_x, class_B_y, class_B_x)
         print(vector_a, vector_b)
 
         plt.figure(figsize=(8, 6))
@@ -257,9 +282,6 @@ class StateValues:
         plt.scatter(class_B_x, class_B_y, color='red', label=blabel)
         plt.scatter(vector_a[1], vector_a[0], color='orange', marker="D")
         plt.scatter(vector_b[1], vector_b[0], color='orange', marker="D")
-
-        # (30.4667, 8.7333)(14.7556, 36.0222)
-        # 1.7369184843836525 - 16.257177613916276
 
         plt.xlim(min(class_A_x + class_B_x) - 5, max(class_A_x + class_B_x) + 5)
         plt.ylim(min(class_A_y + class_B_y) - 5, max(class_A_y + class_B_y) + 5)
@@ -288,7 +310,14 @@ class StateValues:
         """????"""
         # Построение графика с ЛДФ
         class_A_x, class_A_y, class_B_x, class_B_y = self.devide_classes(x, y, y_class, not_class)
-        vector_a, vector_b = self.average_values(class_A_y, class_A_x, class_B_y, class_B_x)
+
+        if len(not_class) == 45:
+            vector_a, vector_b = self.average_values(class_A_x, class_A_y, class_B_x, class_B_y)
+        else:
+            vector_a, vector_b = self.average_values(class_A_y, class_A_x, class_B_y, class_B_x)
+
+        maxix = []
+        minix = []
 
         plt.figure(figsize=(8, 6))
 
@@ -311,21 +340,26 @@ class StateValues:
             temp_class_A_y = class_A_y.copy()
             temp_class_A_x.pop(a_elem)
             temp_class_A_y.pop(a_elem)
+
             for b_elem in range(len(not_class)):
                 temp_class_B_x = class_B_x.copy()
                 temp_class_B_y = class_B_y.copy()
                 temp_class_B_x.pop(b_elem)
                 temp_class_B_y.pop(b_elem)
 
-                vector_jack_a, vector_jack_b = self.average_values(temp_class_A_y, temp_class_A_x, temp_class_B_y,
-                                                                   temp_class_B_x)
+                if len(not_class) == 45:
+                    vector_jack_a, vector_jack_b = self.average_values(temp_class_A_x, temp_class_A_y, temp_class_B_x, temp_class_B_y)
+                else:
+                    vector_jack_a, vector_jack_b = self.average_values(temp_class_A_y, temp_class_A_x, temp_class_B_y, temp_class_B_x)
+
 
                 plt.xlim(min(temp_class_A_x + temp_class_B_x) - 5, max(temp_class_A_x + temp_class_B_x) + 5)
                 plt.ylim(min(temp_class_A_y + temp_class_B_y) - 5, max(temp_class_A_y + temp_class_B_y) + 5)
 
-                x_values = np.linspace(min(temp_class_A_x + temp_class_B_x) - 10,
-                                       max(temp_class_A_x + temp_class_B_x) + 10, 100)
+                x_values = np.linspace(min(temp_class_A_x + temp_class_B_x) - 10, max(temp_class_A_x + temp_class_B_x) + 10, 100)
                 coef1, coef2 = self.solve_function_coefficients(vector_jack_a, vector_jack_b)
+                maxix.append([coef1, coef2])
+                minix.append([coef1, coef2])
                 y_values = coef1 * x_values + coef2
 
                 if label_added:
@@ -333,6 +367,25 @@ class StateValues:
                 else:
                     plt.plot(x_values, y_values, color='grey', linestyle='solid', zorder=1, label="О.Н.")
                     label_added = True
+
+        max_x_b, = [i for i in maxix if i[0] == max([couple[0] for couple in maxix])]
+        min_x_b, = [i for i in maxix if i[0] == min([couple[0] for couple in maxix])]
+
+        # y_values = max_x_b[0] * x_values + max_x_b[1]
+        # plt.plot(x_values, y_values, color='orange', linestyle='solid', zorder=10)
+        # y_values = min_x_b[0] * x_values + min_x_b[1]
+        # plt.plot(x_values, y_values, color='purple', linestyle='solid', zorder=10)
+
+        match len(not_class):
+            case 45:
+                self.uncertainty_functions["B-ACD"]["max"] = max_x_b
+                self.uncertainty_functions["B-ACD"]["min"] = min_x_b
+            case 30:
+                self.uncertainty_functions["D-AC"]["max"] = max_x_b
+                self.uncertainty_functions["D-AC"]["min"] = min_x_b
+            case 15:
+                self.uncertainty_functions["A-C"]["max"] = max_x_b
+                self.uncertainty_functions["A-C"]["min"] = min_x_b
 
         plt.title(title)
         plt.ylabel(ylabel)
@@ -342,7 +395,120 @@ class StateValues:
         plt.show()
 
 
+class Classification(StateValues):
+    def __init__(self):
+        super().__init__()
+        self.checking_dataset = {
+            "A": {
+                1: [28, 23, 6, 40, 13, 20, 26, 27, 25, 8],
+                2: [23, 24, 9, 32, 19, 16, 38, 25, 23, 8],
+                3: [24, 22, 10, 42, 16, 21, 32, 28, 24, 8],
+                4: [22, 28, 12, 54, 12, 27, 24, 26, 22, 7],
+                5: [21, 26, 13, 34, 11, 17, 22, 23, 28, 9],
+            },
+            "B": {
+                1: [28, 23, 28, 14, 14, 7, 28, 21, 26, 9],
+                2: [26, 21, 30, 8, 15, 4, 30, 29, 23, 8],
+                3: [23, 29, 30, 22, 13, 11, 26, 25, 21, 7],
+                4: [21, 22, 33, 22, 19, 11, 38, 23, 29, 10],
+                5: [29, 27, 35, 16, 17, 8, 34, 24, 22, 7],
+            },
+            "C": {
+                1: [28, 25, 23, 98, 17, 49, 34, 22, 27, 9],
+                2: [23, 28, 24, 84, 13, 42, 26, 28, 25, 8],
+                3: [24, 26, 26, 94, 19, 47, 38, 26, 28, 9],
+                4: [22, 23, 28, 86, 16, 43, 32, 23, 29, 10],
+                5: [28, 21, 29, 98, 12, 49, 24, 21, 22, 7],
+            },
+            "D": {
+                1: [24, 22, 11, 70, 11, 35, 22, 27, 27, 9],
+                2: [22, 28, 4, 78, 16, 39, 32, 25, 25, 8],
+                3: [21, 26, 13, 80, 18, 40 ,36, 28, 28, 9],
+                4: [28, 23, 10, 84, 17, 42, 34, 26, 26, 9],
+                5: [26, 21 ,12 ,88, 14 ,44, 28, 23, 23, 8],
+            }
+        }
+        self.designated_signs = {
+            "B-ACD": {
+                "x": 2, "y": 5,
+            },
+            "D-AC": {
+                "x": 5, "y": 2,
+            },
+            "A-C": {
+                "x": 2, "y": 3,
+            },
+        }
+
+    def what_class(self):
+        print("Проход по проверяющей выборке:")
+        for main_class, classes in self.checking_dataset.items():
+            for key_object, class_object in classes.items():
+                response = self.b_acd(class_object)
+
+                print(f"Объект: {key_object} Класса: {main_class} принадлежит - {response}")
+
+    def b_acd(self, _signs: list):
+        a_upper, b_upper = self.uncertainty_functions["B-ACD"]["max"]  # Верхняя граница
+        a_lower, b_lower = self.uncertainty_functions["B-ACD"]["min"]  # Нижняя граница
+
+        x, y = _signs[self.designated_signs["B-ACD"]["x"]], _signs[self.designated_signs["B-ACD"]["y"]]
+
+        # Вычисляем значения y на верхней и нижней границах для данного x
+        y_upper = a_upper * x + b_upper
+        y_lower = a_lower * x + b_lower
+
+        # Определяем класс
+        if y > y_upper:
+            return self.d_ac(_signs)
+        elif y < y_lower:
+            return "Класс B"
+        else:
+            return "Область неопределенности на узле B-ACD"
+
+    def d_ac(self, _signs: list):
+        a_upper, b_upper = self.uncertainty_functions["D-AC"]["max"]  # Верхняя граница 1
+        a_lower, b_lower = self.uncertainty_functions["D-AC"]["min"]  # Нижняя граница
+
+        x, y = _signs[self.designated_signs["D-AC"]["x"]], _signs[self.designated_signs["D-AC"]["y"]]
+
+        # Вычисляем значения y на верхней и нижней границах для данного x
+        y_upper = a_upper * x + b_upper
+        y_lower = a_lower * x + b_lower
+
+        # Определяем класс
+        if y > y_upper:
+            return self.a_c(_signs)
+        elif y < y_lower:
+            return "Класс D"
+        else:
+            return "Область неопределенности на узле D-AC"
+
+    def a_c(self, _signs: list):
+        a_upper, b_upper = self.uncertainty_functions["A-C"]["max"]  # Верхняя граница
+        a_lower, b_lower = self.uncertainty_functions["A-C"]["min"]  # Нижняя граница
+
+        x, y = _signs[self.designated_signs["A-C"]["x"]], _signs[self.designated_signs["A-C"]["y"]]
+
+        # Вычисляем значения y на верхней и нижней границах для данного x
+        y_upper = a_upper * x + b_upper
+        y_lower = a_lower * x + b_lower
+
+        # Определяем класс
+        if y > y_upper:
+            return "Класс C"
+        elif y < y_lower:
+            return "Класс A"
+        else:
+            return "Область неопределенности на узле A-C"
+
+
+def main():
+    object_one = StateValues()
+    object_one.get_informative_signs()
+    # object_one.plots()
+    # object_two = Classification()
+    # object_two.what_class()
+
 if __name__ == '__main__':
-    StateValues().plots()
-    # StateValues().get_informative_signs()
-    # print(StateValues().classes_learn_dataset.values())
+    main()

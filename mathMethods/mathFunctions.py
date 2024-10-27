@@ -1,5 +1,4 @@
 import math
-import pprint
 
 _QUANTITY_SIGNS: int = 10 # Признаков всего 10
 
